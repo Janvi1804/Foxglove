@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foxglove — Hand-drawn notebook</title>
+  <link rel="icon" type="image/jpeg" href="thumbnail.jpg">
+  <meta name="description" content="Foxglove is a handwritten notes app for grocery lists, dumb little thoughts, road trip maps, and everything in between.">
+  <meta property="og:title" content="Foxglove — Hand-drawn notebook">
+  <meta property="og:description" content="Notes that actually feel like yours. Stickers included. Perfection not required.">
+  <meta property="og:image" content="thumbnail.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=IBM+Plex+Mono:wght@400;500&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="paper">
+  <div id="root"></div>
+
+  <!-- React 18 & Babel Standalone -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Project Components & Tweaks Panel -->
+  <script type="text/babel" data-presets="react" src="tweaks_panel.jsx"></script>
+  <script type="text/babel" data-presets="react" src="components/stickers.jsx"></script>
+  <script type="text/babel" data-presets="react" src="components/sections.jsx"></script>
+
+  <!-- Main App Root -->
+  <script type="text/babel" data-presets="react">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "theme": "cozy",
+      "paperTexture": true,
+      "roseColor": "#c98a8a",
+      "stickerDensity": 8,
+      "fontSize": 17
+    }/*EDITMODE-END*/;
+
+    function App() {
+      const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+      React.useEffect(() => {
+        if (t.theme === "moody") {
+          document.body.classList.add("moody");
+        } else {
+          document.body.classList.remove("moody");
+        }
+
+        if (t.paperTexture) {
+          document.body.classList.add("paper");
+        } else {
+          document.body.classList.remove("paper");
+        }
+
+        if (t.roseColor) {
+          document.documentElement.style.setProperty("--rose", t.roseColor);
+        }
+
+        if (t.fontSize) {
+          document.body.style.fontSize = t.fontSize + "px";
+        }
+      }, [t.theme, t.paperTexture, t.roseColor, t.fontSize]);
+
+      return (
+        <div className="foxglove-app">
+          <Nav />
+          <Hero stickerDensity={t.stickerDensity} />
+          <Features />
+          <Polaroids />
+          <HowItWorks />
+          <Gallery />
+          <Testimonials />
+          <Pricing />
+          <Signup />
+          <FAQ />
+          <Footer />
+
+          <TweaksPanel>
+            <TweakSection label="Theme & Style" />
+            <TweakRadio
+              label="Theme"
+              value={t.theme}
+              options={["cozy", "moody"]}
+              onChange={(v) => setTweak("theme", v)}
+            />
+            <TweakToggle
+              label="Paper Texture"
+              value={t.paperTexture}
+              onChange={(v) => setTweak("paperTexture", v)}
+            />
+            <TweakColor
+              label="Rose Accent"
+              value={t.roseColor}
+              options={["#c98a8a", "#a86868", "#7A5AE0", "#0F766E", "#d4a880"]}
+              onChange={(v) => setTweak("roseColor", v)}
+            />
+            <TweakSlider
+              label="Sticker Density"
+              value={t.stickerDensity}
+              min={3}
+              max={12}
+              step={1}
+              onChange={(v) => setTweak("stickerDensity", v)}
+            />
+            <TweakSlider
+              label="Body Font Size"
+              value={t.fontSize}
+              min={14}
+              max={22}
+              unit="px"
+              onChange={(v) => setTweak("fontSize", v)}
+            />
+            <TweakSuggestionBar
+              suggestions={[
+                "Change accent color to sage green",
+                "Switch to moody dark theme",
+                "Increase sticker density to max"
+              ]}
+            />
+          </TweaksPanel>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
