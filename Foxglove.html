@@ -24,15 +24,25 @@
   <!-- React 18 & Babel Standalone -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.4/babel.min.js"></script>
+
+  <!-- Register Classic React Preset (Prevents ES Module import errors in browser Babel) -->
+  <script>
+    Babel.registerPreset('react-classic', {
+      presets: [
+        [Babel.availablePresets['react'], { runtime: 'classic' }],
+        [Babel.availablePresets['env'], { modules: false }]
+      ]
+    });
+  </script>
 
   <!-- Project Components & Tweaks Panel -->
-  <script type="text/babel" data-presets="react" src="tweaks_panel.jsx"></script>
-  <script type="text/babel" data-presets="react" src="components/stickers.jsx"></script>
-  <script type="text/babel" data-presets="react" src="components/sections.jsx"></script>
+  <script type="text/babel" data-presets="react-classic" src="tweaks_panel.jsx"></script>
+  <script type="text/babel" data-presets="react-classic" src="components/stickers.jsx"></script>
+  <script type="text/babel" data-presets="react-classic" src="components/sections.jsx"></script>
 
   <!-- Main App Root -->
-  <script type="text/babel" data-presets="react">
+  <script type="text/babel" data-presets="react-classic">
     const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
       "theme": "cozy",
       "paperTexture": true,
