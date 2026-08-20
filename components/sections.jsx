@@ -1,23 +1,36 @@
 // All main sections composed here
 
 function Nav() {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <a href="#" className="logo">
+        <a href="#" className="logo" onClick={() => setMenuOpen(false)}>
           <span className="logo-mark">F</span>
           <span>Foxglove</span>
         </a>
-        <div className="nav-links">
-          <a href="#features">Features</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#how">How it works</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
+        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+          <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
+          <a href="#gallery" onClick={() => setMenuOpen(false)}>Gallery</a>
+          <a href="#how" onClick={() => setMenuOpen(false)}>How it works</a>
+          <a href="#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
+          <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
+          <a href="#signup" className="btn ghost nav-cta" onClick={() => setMenuOpen(false)}>
+            Join waitlist
+          </a>
         </div>
-        <a href="#signup" className="btn ghost" style={{ fontSize: 18, padding: "10px 18px" }}>
-          Join waitlist
-        </a>
+        <button
+          type="button"
+          className={`nav-hamburger ${menuOpen ? "active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+        >
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </button>
       </div>
     </nav>
   );
@@ -27,8 +40,8 @@ function Hero({ stickerDensity }) {
   return (
     <section className="hero">
       <div className="container hero-grid">
-        <div>
-          <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 14, fontFamily: "var(--display)", color: "var(--rose-deep)", fontSize: 22 }}>
+        <div className="hero-content">
+          <div className="hero-tagline">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12 L 20 12 M 14 6 L 20 12 L 14 18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/></svg>
             <span>the pocket notebook, but softer</span>
           </div>
@@ -39,19 +52,19 @@ function Hero({ stickerDensity }) {
             Foxglove is a handwritten notes app for grocery lists, dumb little thoughts, road trip maps, and everything in between. Stickers included. Perfection not required.
           </p>
           <div className="hero-ctas">
-            <a href="#signup" className="btn">Get early access ‚Üí</a>
+            <a href="#signup" className="btn">Get early access ?</a>
             <a href="#gallery" className="btn ghost">See the wall</a>
           </div>
-          <p style={{ marginTop: 24, fontFamily: "var(--display)", fontSize: 18, color: "var(--ink-soft)" }}>
-            ‚úø 12,483 folks already on the list
+          <p className="hero-social-proof">
+            ? 12,483 folks already on the list
           </p>
         </div>
-        <div style={{ position: "relative" }}>
+        <div className="hero-stage-wrap">
           <StickerStage density={stickerDensity} />
-          <div className="hero-scribble" style={{ top: -18, right: 40, transform: "rotate(6deg)", fontSize: 22 }}>
+          <div className="hero-scribble">
             drag em around!
           </div>
-          <svg style={{ position: "absolute", top: -10, right: 140, transform: "rotate(20deg)" }} width="60" height="80" viewBox="0 0 60 80" fill="none">
+          <svg className="hero-scribble-arrow" width="60" height="80" viewBox="0 0 60 80" fill="none">
             <path d="M10 10 Q 40 30, 20 70" stroke="#a86868" strokeWidth="2" fill="none" strokeLinecap="round" strokeDasharray="2 4"/>
             <path d="M12 62 L 20 70 L 26 60" stroke="#a86868" strokeWidth="2" fill="none" strokeLinecap="round"/>
           </svg>
@@ -63,9 +76,9 @@ function Hero({ stickerDensity }) {
 
 function Features() {
   const feats = [
-    { icon: "‚úé", title: "Pencil-first", body: "Every note starts as ink or graphite. Type only if you must. Yes, it feels weird at first. Yes, you'll get over it." },
-    { icon: "‚úø", title: "Stickers & tape", body: "A whole drawer of washi tape, doodled fruit, chunky arrows, and vaguely-illegible mood stamps. Slap them anywhere." },
-    { icon: "‚òÅ", title: "Quietly synced", body: "Notes drift between your phone and desk gently, in the background. No push notifications. No AI helper. On purpose." },
+    { icon: "?", title: "Pencil-first", body: "Every note starts as ink or graphite. Type only if you must. Yes, it feels weird at first. Yes, you'll get over it." },
+    { icon: "?", title: "Stickers & tape", body: "A whole drawer of washi tape, doodled fruit, chunky arrows, and vaguely-illegible mood stamps. Slap them anywhere." },
+    { icon: "?", title: "Quietly synced", body: "Notes drift between your phone and desk gently, in the background. No push notifications. No AI helper. On purpose." },
   ];
   return (
     <section id="features" className="features">
@@ -88,12 +101,12 @@ function Features() {
 }
 
 const POLAROIDS = [
-  { caption: "grocery list", photoA: "#c98a8a", photoB: "#a86868", label: "list_042", back: { title: "sunday shop", body: "sourdough / honey / pears\nfeta / dill / good butter\n(the one with sea salt)", meta: "may 12 ¬∑ 3:04pm" } },
-  { caption: "road trip", photoA: "#8ba888", photoB: "#6a8f6a", label: "map_007", back: { title: "big sur run", body: "9am start ¬∑ gas at Salinas\nlunch @ Nepenthe\nsunset ‚Äî Bixby bridge!", meta: "aug 3 ¬∑ morning" } },
-  { caption: "morning thoughts", photoA: "#e8c66a", photoB: "#c9a648", label: "journal_119", back: { title: "5:42 am", body: "woke up before the alarm again. the kitchen light is the good kind of yellow. tea is steeping.", meta: "sep 21 ¬∑ dawn" } },
-  { caption: "the dog", photoA: "#d4a880", photoB: "#a67e56", label: "polaroid_888", back: { title: "otis, aged 7", body: "still refuses to walk past the mailbox. we accept him as he is.", meta: "aug 30 ¬∑ park" } },
-  { caption: "recipe", photoA: "#c98a8a", photoB: "#e8c66a", label: "recipe_014", back: { title: "sunday soup", body: "onion, garlic, one big leek\nchicken stock ¬∑ white beans\nsalt too much. then more.", meta: "oct 6 ¬∑ kitchen" } },
-  { caption: "little wins", photoA: "#8ba888", photoB: "#c98a8a", label: "list_209", back: { title: "this week", body: "‚úì finished the book\n‚úì called mom\n‚úì walked 3 days in a row\n‚óã ‚Ä¶the plants (sorry)", meta: "nov 4 ¬∑ friday" } },
+  { caption: "grocery list", photoA: "#c98a8a", photoB: "#a86868", label: "list_042", back: { title: "sunday shop", body: "sourdough / honey / pears\nfeta / dill / good butter\n(the one with sea salt)", meta: "may 12 ∑ 3:04pm" } },
+  { caption: "road trip", photoA: "#8ba888", photoB: "#6a8f6a", label: "map_007", back: { title: "big sur run", body: "9am start ∑ gas at Salinas\nlunch @ Nepenthe\nsunset ó Bixby bridge!", meta: "aug 3 ∑ morning" } },
+  { caption: "morning thoughts", photoA: "#e8c66a", photoB: "#c9a648", label: "journal_119", back: { title: "5:42 am", body: "woke up before the alarm again. the kitchen light is the good kind of yellow. tea is steeping.", meta: "sep 21 ∑ dawn" } },
+  { caption: "the dog", photoA: "#d4a880", photoB: "#a67e56", label: "polaroid_888", back: { title: "otis, aged 7", body: "still refuses to walk past the mailbox. we accept him as he is.", meta: "aug 30 ∑ park" } },
+  { caption: "recipe", photoA: "#c98a8a", photoB: "#e8c66a", label: "recipe_014", back: { title: "sunday soup", body: "onion, garlic, one big leek\nchicken stock ∑ white beans\nsalt too much. then more.", meta: "oct 6 ∑ kitchen" } },
+  { caption: "little wins", photoA: "#8ba888", photoB: "#c98a8a", label: "list_209", back: { title: "this week", body: "? finished the book\n? called mom\n? walked 3 days in a row\n? Öthe plants (sorry)", meta: "nov 4 ∑ friday" } },
 ];
 
 function Polaroids() {
@@ -103,13 +116,16 @@ function Polaroids() {
       <div className="container">
         <span className="section-eyebrow">flip them over</span>
         <h2 className="section-title">A shoebox<br/>of little moments.</h2>
-        <p className="section-sub">Every polaroid is a real note. Click one and it flips over ‚Äî that's what's on the back, exactly as it was written.</p>
+        <p className="section-sub">Every polaroid is a real note. Click one and it flips over ó that's what's on the back, exactly as it was written.</p>
         <div className="polaroid-wall">
           {POLAROIDS.map((p, i) => (
             <div
               key={i}
               className={`polaroid ${flipped[i] ? "flipped" : ""}`}
               onClick={() => setFlipped(f => ({ ...f, [i]: !f[i] }))}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setFlipped(f => ({ ...f, [i]: !f[i] })); } }}
             >
               <div className="polaroid-face" style={{ "--photo-a": p.photoA, "--photo-b": p.photoB }}>
                 <div className="polaroid-photo" style={{ "--photo-a": p.photoA, "--photo-b": p.photoB }}>
@@ -119,7 +135,7 @@ function Polaroids() {
               </div>
               <div className="polaroid-face polaroid-back">
                 <div className="back-title">{p.back.title}</div>
-                <div className="back-body" style={{ whiteSpace: "pre-line" }}>{p.back.body}</div>
+                <div className="back-body">{p.back.body}</div>
                 <div className="back-meta">{p.back.meta}</div>
               </div>
               <span className="flip-hint">click to flip</span>
@@ -133,7 +149,7 @@ function Polaroids() {
 
 function HowItWorks() {
   const steps = [
-    { title: "Grab a page", body: "Open a fresh sheet. Lined, dotted, blank, or a folded envelope ‚Äî pick your paper." },
+    { title: "Grab a page", body: "Open a fresh sheet. Lined, dotted, blank, or a folded envelope ó pick your paper." },
     { title: "Scribble anything", body: "Words, arrows, tiny maps, a shopping list, a whole mood board. Pencil, ink, or marker." },
     { title: "Slap on stickers", body: "Add tape, doodled fruit, chunky arrows. Rearrange until it feels right. Save. Done." },
   ];
@@ -193,7 +209,7 @@ function Gallery() {
               <div className="gallery-caption">{c.caption}</div>
               <div className="gallery-meta">
                 <span>{c.author}</span>
-                <span className="heart">‚ô• {c.likes}</span>
+                <span className="heart">? {c.likes}</span>
               </div>
             </div>
           ))}
@@ -352,7 +368,7 @@ function Signup() {
                   ))}
                 </div>
               </div>
-              <button type="submit" className="btn">Save my spot ‚úø</button>
+              <button type="submit" className="btn">Save my spot ?</button>
             </form>
           ) : (
             <div className="waitlist-reveal">
@@ -360,7 +376,7 @@ function Signup() {
               <div className="num">{waitNum.toLocaleString()}</div>
               <div className="num-label">on the list</div>
               <div className="num-msg">
-                thanks {form.name || "friend"} ‚Äî <br/>we'll write soon ‚úé
+                thanks {form.name || "friend"} ó <br/>we'll write soon ?
               </div>
               <div style={{ marginTop: 20, fontSize: 14, color: "var(--ink-soft)" }}>
                 confirmation sent to <b>{form.email}</b>
@@ -374,10 +390,10 @@ function Signup() {
 }
 
 const FAQ_ITEMS = [
-  { q: "Do I need to have nice handwriting?", a: "Absolutely not ‚Äî messy is the point. The OCR reads even the most chaotic scribbles, and we designed the whole app to make bad handwriting look intentional." },
+  { q: "Do I need to have nice handwriting?", a: "Absolutely not ó messy is the point. The OCR reads even the most chaotic scribbles, and we designed the whole app to make bad handwriting look intentional." },
   { q: "Is there an AI writing helper?", a: "No, and there won't be. Foxglove is a place to make things by hand. If we ever add anything smart, it'll be a search box, not a co-author." },
-  { q: "How does it sync?", a: "Quietly, in the background, over end-to-end encrypted channels. Your notes are yours ‚Äî we can't read them and we don't want to." },
-  { q: "Can I export or print my notes?", a: "Yes. Export as PDF, PNG, or ‚Äî on the Shoebox plan ‚Äî we'll actually mail you a real printed booklet twice a year, on cream paper." },
+  { q: "How does it sync?", a: "Quietly, in the background, over end-to-end encrypted channels. Your notes are yours ó we can't read them and we don't want to." },
+  { q: "Can I export or print my notes?", a: "Yes. Export as PDF, PNG, or ó on the Shoebox plan ó we'll actually mail you a real printed booklet twice a year, on cream paper." },
   { q: "When can I use it?", a: "We're rolling out invites in batches through late 2026. Join the waitlist and you'll get a real handwritten reply (from a human) when your spot opens up." },
 ];
 
@@ -420,7 +436,7 @@ function Footer() {
             </div>
             <p>A small handwritten notes app for people who like paper. Built quietly in Oakland, CA and Lisbon, PT.</p>
           </div>
-          <div>
+          <div className="footer-col">
             <h5>Product</h5>
             <ul className="footer-links">
               <li><a href="#features">Features</a></li>
@@ -429,7 +445,7 @@ function Footer() {
               <li><a href="#">Changelog</a></li>
             </ul>
           </div>
-          <div>
+          <div className="footer-col">
             <h5>Company</h5>
             <ul className="footer-links">
               <li><a href="#">Story</a></li>
@@ -438,7 +454,7 @@ function Footer() {
               <li><a href="#">Careers (2 open)</a></li>
             </ul>
           </div>
-          <div>
+          <div className="footer-col">
             <h5>Help</h5>
             <ul className="footer-links">
               <li><a href="#faq">FAQ</a></li>
@@ -449,7 +465,7 @@ function Footer() {
           </div>
         </div>
         <div className="footer-fine">
-          <span>¬© 2026 Foxglove Paper Co. ‚Äî made with pencils, tea, and a bit of tape.</span>
+          <span>© 2026 Foxglove Paper Co. ó made with pencils, tea, and a bit of tape.</span>
           <span className="socials">
             <a href="#">instagram</a>
             <a href="#">tumblr</a>
